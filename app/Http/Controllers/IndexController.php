@@ -20,7 +20,7 @@ class IndexController extends Controller
     public function profile()
     {
         $tags = Tag::all();
-        $posts = Post::all();
+        $posts = Post::where('user_id', \auth()->user()->id)->get();
         return view('pages/profile', compact('tags', 'posts'));
     }
 
