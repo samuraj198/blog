@@ -45,9 +45,9 @@ class AuthController extends Controller
 
         if (Hash::check($passwordSalt, $user['password'])) {
             Auth::login($user);
-            return redirect()->intended(route('index'))->with('success', 'Вход выполнен успешно');
+            return redirect()->intended(route('profile'))->with('success', 'Вход выполнен успешно');
         } else {
-            return back()->with('errorAuth', 'Не удалось выполнить вход');
+            return back()->withErrors(['Введенные данные не верны или такого пользователя не существует']);
         }
     }
 

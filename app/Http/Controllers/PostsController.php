@@ -3,24 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
-class IndexController extends Controller
+class PostsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('pages/index');
-    }
-
-    public function profile()
-    {
-        $tags = Tag::all();
-        return view('pages/profile', compact('tags'));
+        //
     }
 
     /**
@@ -36,7 +29,24 @@ class IndexController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'tags' => 'required|array',
+            'status' => 'required|integer',
+        ]);
+
+        $tags = implode(',', $request['tags']);
+
+        $post = Post::create([
+            'title' => $request['title'],
+            'content' => $request['content'],
+            'tags' => $tags,
+            'status' => $request['status'],
+            'user_id' => auth()->user()->id,
+        ]);
+
+        return redirect()->route('profile');
     }
 
     /**

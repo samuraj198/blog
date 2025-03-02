@@ -61,7 +61,7 @@ class RegisterController extends Controller
 
         event(new Registered($user));
         Auth::login($user);
-        return redirect()->route('index')->with('success', 'Вы успешно зарегистрировались. Вход выполнен');
+        return redirect()->route('profile')->with('success', 'Вы успешно зарегистрировались. Вход выполнен');
     }
 
     /**
