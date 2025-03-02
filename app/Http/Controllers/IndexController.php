@@ -20,7 +20,8 @@ class IndexController extends Controller
     public function profile()
     {
         $tags = Tag::all();
-        return view('pages/profile', compact('tags'));
+        $posts = Post::all();
+        return view('pages/profile', compact('tags', 'posts'));
     }
 
     /**

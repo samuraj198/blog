@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -37,6 +38,12 @@ class PostsController extends Controller
         ]);
 
         $tags = implode(',', $request['tags']);
+
+        foreach ($request['tags'] as $tag) {
+            $query = Tag::where('name', $tag)->first();
+            $query->frequency += 1;
+            $query->save();
+        }
 
         $post = Post::create([
             'title' => $request['title'],
