@@ -50,5 +50,27 @@
     function closeCreatePostModal() {
         document.querySelector('.createPost').classList.add('hidden');
     }
+    function openChangePost(id, title, content, tags, status) {
+        document.querySelector('.createPost').classList.remove('hidden');
+
+        document.getElementById('title').value = title;
+        document.getElementById('content').value = content;
+        document.getElementById('id').value = id;
+
+        const tagsArray = tags.split(',').map(tag => tag.trim());
+        const options = document.getElementById('tags').options;
+
+        for (let i = 0; i < options.length; i++) {
+            if (tagsArray.includes(options[i].value)) {
+                options[i].selected = true;
+            } else {
+                options[i].selected = false;
+            }
+        }
+
+        if (status === 2) {
+            document.getElementById('public').checked = true;
+        }
+    }
 </script>
 </html>

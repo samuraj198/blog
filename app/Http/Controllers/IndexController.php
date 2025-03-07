@@ -14,13 +14,15 @@ class IndexController extends Controller
      */
     public function index()
     {
-        return view('pages/index');
+        $posts = Post::where('status', 2)->orderBy('created_at', 'desc')->get();
+
+        return view('pages/index', compact('posts'));
     }
 
     public function profile()
     {
         $tags = Tag::all();
-        $posts = Post::where('user_id', \auth()->user()->id)->get();
+        $posts = Post::where('user_id', \auth()->user()->id)->orderBy('status')->get();
         return view('pages/profile', compact('tags', 'posts'));
     }
 

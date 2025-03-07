@@ -3,12 +3,13 @@
         @csrf
         <a onclick="closeCreatePostModal()" class="absolute top-0 right-2 text-3xl cursor-pointer">&times;</a>
         <h2 class="text-center font-bold text-2xl">Создание записи</h2>
-        <input required name="title" type="text" placeholder="Название записи"
+        <input type="text" value="" id="id" name="id" class="hidden">
+        <input id="title" required name="title" type="text" placeholder="Название записи"
                class="w-full border-[1px] border-black px-3 py-1 rounded-lg text-xl">
-        <textarea required name="content" placeholder="Контент записи"
+        <textarea id="content" required name="content" placeholder="Контент записи"
                class="w-full border-[1px] border-black px-3 py-1 rounded-lg text-xl min-h-[100px]"></textarea>
         <label class="w-full" for="tags">Выберите подходящий тег(Если несколько используй Ctrl)</label>
-        <select required name="tags[]" multiple class="w-full border-[1px] border-black px-3 py-1 rounded-lg text-xl">
+        <select id="tags" required name="tags[]" multiple class="w-full border-[1px] border-black px-3 py-1 rounded-lg text-xl">
             @forelse($tags as $tag)
                 <option value="{{ $tag['name'] }}">{{ $tag['name'] }}</option>
             @empty
@@ -16,11 +17,11 @@
             @endforelse
         </select>
         <div class="checkCreate flex gap-2 w-full">
-            <input value="2" type="radio" name="status">
+            <input id="public" value="2" type="radio" name="status">
             <p>Опубликовать</p>
         </div>
         <div class="checkDraft flex gap-2 w-full">
-            <input value="1" type="radio" name="status" checked>
+            <input id="draft" value="1" type="radio" name="status" checked>
             <p>в черновик</p>
         </div>
         <button value="2" name="create" type="submit"><x-button text="Создать" /></button>

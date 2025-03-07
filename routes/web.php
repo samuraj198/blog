@@ -25,3 +25,9 @@ Route::get('/register', function () {
 Route::post('/register', [RegisterController::class, 'store']);
 
 Route::post('/createPost', [PostsController::class, 'store'])->name('createPost');
+
+Route::post('/addToArchive', [PostsController::class, 'addToArchive'])->name('addToArchive');
+
+Route::get('/post/{id}', [PostsController::class, 'showPost'])->name('showPost');
+
+Route::post('/createComment/{id}', [PostsController::class, 'createComment'])->name('createComment');

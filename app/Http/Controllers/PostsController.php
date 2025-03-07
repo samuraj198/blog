@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -15,6 +16,50 @@ class PostsController extends Controller
     public function index()
     {
         //
+    }
+
+    public function showPost($id)
+    {
+        $comments = Comment::where('post_id', $id)->get();
+
+        $post = Post::where('id', $id)->first();
+
+        return view('pages/showPost', compact('comments', 'post'));
+    }
+
+    public function createComment($id, Request $request)
+    {
+        $request->validate([
+            'content' => 'required|string|min:10',
+        ]);
+
+        if (empty(auth()->user()->username)) {
+            $author = 'Guest';
+            $email = null;
+        } else {
+            $author = auth()->user()->username;
+            $email = auth()->user()->email;
+        }
+
+        $comment = Comment::create([
+            'content' => $request['content'],
+            'post_id' => $id,
+            'author' => $author,
+            'email' =>$email,
+            'status' => 1,
+        ]);
+        return redirect()->back()->with('createComm', 'Комментарий отправлен на проверку');
+    }
+
+    public function addToArchive(Request $request)
+    {
+        $post = Post::where('id', $request['id'])->first();
+        if ($post) {
+            $post['status'] = 3;
+            $post->save();
+        }
+        return redirect()->back()
+            ->with('addToArchive', 'Пост успешно добавлен в архив и не виден другим пользователям');
     }
 
     /**
@@ -31,13 +76,12 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'id' => 'nullable|integer',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'tags' => 'required|array',
             'status' => 'required|integer',
         ]);
-
-        $tags = implode(',', $request['tags']);
 
         foreach ($request['tags'] as $tag) {
             $query = Tag::where('name', $tag)->first();
@@ -45,13 +89,24 @@ class PostsController extends Controller
             $query->save();
         }
 
-        $post = Post::create([
-            'title' => $request['title'],
-            'content' => $request['content'],
-            'tags' => $tags,
-            'status' => $request['status'],
-            'user_id' => auth()->user()->id,
-        ]);
+        $tags = implode(',', $request['tags']);
+
+        if ($request['id']) {
+            $query = Post::where('id', $request['id'])->first();
+            $query->title = $request['title'];
+            $query->content = $request['content'];
+            $query->tags = $tags;
+            $query->status = $request['status'];
+            $query->save();
+        } else {
+            $post = Post::create([
+                'title' => $request['title'],
+                'content' => $request['content'],
+                'tags' => $tags,
+                'status' => $request['status'],
+                'user_id' => auth()->user()->id,
+            ]);
+        }
 
         return redirect()->route('profile');
     }
