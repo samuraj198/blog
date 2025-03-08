@@ -25,9 +25,9 @@
                         <button class="absolute bottom-1 right-3 cursor-pointer hover:underline" type="submit">В архив</button>
                     </form>
                 @endif
-                    <a onclick="openChangePost({{ $post->id }}, '{{ $post->title }}',
-                    '{{ $post->content }}', '{{ $post->tags }}', {{ $post->status }})"
-                    class="absolute bottom-1 left-3 hover:text-white hover:underline cursor-pointer">Изменить</a>
+                    <button onclick="event.stopPropagation() ; openChangePost({{ $post->id }}, '{{ $post->title }}',
+                    '{{ $post->content }}', '{{ $post->tags }}', {{ $post->status }}); return false;"
+                    class="absolute bottom-1 left-3 hover:text-white hover:underline cursor-pointer">Изменить</button>
             </a>
         @empty
             <p class="text-red-500">У вас еще нет записей</p>

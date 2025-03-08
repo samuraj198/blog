@@ -14,14 +14,22 @@
                     <p>{{ $comment->content }}</p>
                 </div>
             @empty
-                <p class="text-red-500 text-center">Комментариев пока нет</p>
+                @if($post->status != 3)
+                    <p class="text-red-500 text-center">Комментариев пока нет</p>
+                @else
+                    <p class="text-red-500 text-center">
+                        Комментариев нет. Пост в архиве, писать новые комментарии запрещено
+                    </p>
+                @endif
             @endforelse
         </div>
-        <form method="POST" class="w-full flex items-center justify-center gap-1 fixed bottom-5"
-        action="{{ route('createComment', ['id' => $post->id]) }}">
-            @csrf
-            <input min="10" required type="text" name="content" placeholder="Комментарий" class="border-black border-[1px] w-[80%] px-5 py-3 rounded-xl">
-            <button type="submit"> <x-button text="Отправить" /> </button>
-        </form>
+        @if($post->status != 3)
+            <form method="POST" class="w-full flex items-center justify-center gap-1 fixed bottom-5"
+                  action="{{ route('createComment', ['id' => $post->id]) }}">
+                @csrf
+                <input min="10" required type="text" name="content" placeholder="Комментарий" class="border-black border-[1px] w-[80%] px-5 py-3 rounded-xl">
+                <button type="submit"> <x-button text="Отправить" /> </button>
+            </form>
+        @endif
     </div>
 @endsection
