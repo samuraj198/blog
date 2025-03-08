@@ -20,6 +20,11 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->unsignedBigInteger('post_id');
             $table->timestamps();
+
+            $table->foreign('post_id')
+                ->references('id')
+                ->on('tbl_post')
+                ->onDelete('cascade');
         });
     }
 

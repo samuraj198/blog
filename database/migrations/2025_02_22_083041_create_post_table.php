@@ -19,6 +19,10 @@ return new class extends Migration
             $table->enum('status', ['1', '2', '3'])->default('1');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('tbl_user');
         });
     }
 

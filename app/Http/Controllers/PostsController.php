@@ -83,6 +83,22 @@ class PostsController extends Controller
             'status' => 'required|integer',
         ]);
 
+        $oldTags = [];
+        if ($request['id']) {
+            $post = Post::find($request['id']);
+            $oldTags = explode(',', $post->tags);
+        }
+
+        foreach ($oldTags as $tag) {
+            if (!in_array($tag, $request['tags'])) {
+                $query = Tag::where('name', $tag)->first();
+                if ($query) {
+                    $query->frequency -= 1;
+                    $query->save();
+                }
+            }
+        }
+
         foreach ($request['tags'] as $tag) {
             $query = Tag::where('name', $tag)->first();
             $query->frequency += 1;
@@ -107,6 +123,7 @@ class PostsController extends Controller
                 'user_id' => auth()->user()->id,
             ]);
         }
+
 
         return redirect()->route('profile');
     }
