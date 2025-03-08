@@ -14,7 +14,9 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $posts = Post::where('status', 2)->orderBy('created_at', 'desc')->get();
+        $posts = Post::where('status', 2)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('pages/index', compact('posts'));
     }
@@ -22,7 +24,9 @@ class IndexController extends Controller
     public function profile()
     {
         $tags = Tag::all();
-        $posts = Post::where('user_id', \auth()->user()->id)->orderBy('status')->get();
+        $posts = Post::where('user_id', \auth()->user()->id)
+            ->orderBy('status')
+            ->paginate(10);
         return view('pages/profile', compact('tags', 'posts'));
     }
 

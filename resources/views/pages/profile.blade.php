@@ -6,9 +6,9 @@
     <div class="buttons flex gap-5">
         <a onclick="openCreatePostModal()"><x-button text="Создать запись" /></a>
     </div>
-    <div class="posts mt-10 flex gap-5">
+    <div class="posts mt-10 flex gap-5 flex-wrap items-center justify-center">
         @forelse($posts as $post)
-            <a href="{{ route('showPost', ['id' => $post->id]) }}" class="relative py-10 px-20 border-2 border-purple-400 rounded-xl
+            <a href="{{ route('showPost', ['id' => $post->id]) }}" class="relative py-10 px-28 border-2 border-purple-400 rounded-xl
             hover:bg-purple-400 hover:text-white transition-all duration-300">
                 <form class="z-10" method="POST" action="{{ route('deletePost') }}">
                     @csrf
@@ -39,5 +39,8 @@
         @empty
             <p class="text-red-500">У вас еще нет записей</p>
         @endforelse
+    </div>
+    <div class="pagination mt-12">
+        {{ $posts->links('pagination::bootstrap-4') }}
     </div>
 @endsection
