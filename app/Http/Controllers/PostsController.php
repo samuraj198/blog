@@ -155,8 +155,16 @@ class PostsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Request $request)
     {
-        //
+        $post = Post::find($request['id']);
+        $tags = explode(',', $post->tags);
+        foreach ($tags as $tag) {
+            $query = Tag::where('name', $tag)->first();
+            $query->frequency -= 1;
+            $query->save();
+        }
+        $post->delete();
+        return redirect()->route('profile')->with('Вы успешно удалили пост');
     }
 }

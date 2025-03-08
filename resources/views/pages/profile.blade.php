@@ -10,6 +10,13 @@
         @forelse($posts as $post)
             <a href="{{ route('showPost', ['id' => $post->id]) }}" class="relative py-10 px-20 border-2 border-purple-400 rounded-xl
             hover:bg-purple-400 hover:text-white transition-all duration-300">
+                <form class="z-10" method="POST" action="{{ route('deletePost') }}">
+                    @csrf
+                    @method('DELETE')
+                    <input name="id" type="text" value="{{ $post->id }}" class="hidden">
+                    <input class="cursor-pointer hover:underline absolute top-1 right-3 text-red-500"
+                           type="submit" value="Удалить">
+                </form>
                 @if($post->status == 2)
                     <p class="text-green-300 absolute top-1 left-3">Опубликовано</p>
                 @elseif($post->status == 1)

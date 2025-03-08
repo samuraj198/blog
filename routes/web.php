@@ -10,6 +10,10 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [IndexController::class, 'profile'])->name('profile');
+    Route::delete('/auth', [AuthController::class, 'destroy']);
+    Route::post('/createPost', [PostsController::class, 'store'])->name('createPost');
+    Route::post('/addToArchive', [PostsController::class, 'addToArchive'])->name('addToArchive');
+    Route::delete('/deletePost', [PostsController::class, 'destroy'])->name('deletePost');
 });
 
 Route::get('/auth', function () {
@@ -18,17 +22,11 @@ Route::get('/auth', function () {
 
 Route::post('/auth', [AuthController::class, 'store']);
 
-Route::delete('/auth', [AuthController::class, 'destroy']);
-
 Route::get('/register', function () {
     return view('pages/register');
 })->name('register');
 
 Route::post('/register', [RegisterController::class, 'store']);
-
-Route::post('/createPost', [PostsController::class, 'store'])->name('createPost');
-
-Route::post('/addToArchive', [PostsController::class, 'addToArchive'])->name('addToArchive');
 
 Route::get('/post/{id}', [PostsController::class, 'showPost'])->name('showPost');
 

@@ -80,9 +80,7 @@ class AuthController extends Controller
      */
     public function destroy(Request $request)
     {
-        Auth::guard($request->route()->parameter('guard'))->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        Auth::logout();
         return redirect('/')->with('success', 'Вы успешно вышли из аккаунта');
     }
 }
