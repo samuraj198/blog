@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tbl_tag', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('frequency');
+            $table->integer('frequency')->default(0);
             $table->timestamps();
         });
     }

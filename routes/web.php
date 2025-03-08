@@ -8,11 +8,13 @@ use \App\Http\Controllers\PostsController;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
-Route::get('/profile', [IndexController::class, 'profile'])->name('profile');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [IndexController::class, 'profile'])->name('profile');
+});
 
 Route::get('/auth', function () {
     return view('pages/auth');
-})->name('auth');
+})->name('login');
 
 Route::post('/auth', [AuthController::class, 'store']);
 

@@ -14,6 +14,7 @@
     <input required name="password_confirmation" type="password" placeholder="Confirmation"
            class="px-3 py-2 border-black border-[1px] rounded-lg w-[20%]">
     <a type="submit"><x-button text="Зарегистрироваться" /></a>
+    <p>Уже есть аккаунт? <a class="text-purple-400 hover:underline transition-all duration-300" href="{{ route('login') }}">Вход</a></p>
 </form>
 @if($errors->any())
     <ul>

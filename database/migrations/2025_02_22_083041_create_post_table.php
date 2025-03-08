@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('content');
-            $table->unsignedBigInteger('tags')->nullable();
+            $table->string('tags')->nullable();
             $table->enum('status', ['1', '2', '3'])->default('1');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

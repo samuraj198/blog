@@ -25,7 +25,7 @@
                     <p class="cursor-pointer font-bold text-xl">{{ auth()->user()->username }}</p>
                     <div class="dropdown-menu absolute right-0 mt-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                         <a href="{{ route('profile') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Профиль</a>
-                        <form action="{{ route('auth') }}" method="POST" class="block">
+                        <form action="{{ route('login') }}" method="POST" class="block">
                             @csrf
                             @method("DELETE")
                             <button type="submit" class="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">Выход</button>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             @else
-                <a href="{{ route('auth') }}"><x-button text="Вход" /></a>
+                <a href="{{ route('login') }}"><x-button text="Вход" /></a>
                 <a href="{{ route('register') }}"><x-button text="Регистрация" /></a>
             @endif
 

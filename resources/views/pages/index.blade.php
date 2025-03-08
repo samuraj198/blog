@@ -14,7 +14,7 @@
                 </p>
             </a>
         @empty
-            <p class="text-red-500">У вас еще нет записей</p>
+            <p class="text-red-500">Еще нет записей</p>
         @endforelse
     </div>
 @endsection
