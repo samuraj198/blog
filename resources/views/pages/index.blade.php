@@ -1,7 +1,24 @@
 @extends('layouts/main')
 @section('title', 'Main Page')
 @section('content')
-    <h2 class="text-center font-bold text-2xl dark:text-white">Главная страница</h2>
+    <div class="nameAndTags flex gap-10 justify-center items-center">
+        <h2 class="text-center font-bold text-2xl dark:text-white">Главная страница</h2>
+        <form class="mb-0" method="GET">
+            @csrf
+            <select name="tag" onchange="this.form.submit()" class="w-full border-[1px] border-black px-3 py-1 rounded-lg text-xl dark:bg-black
+            dark:border-white dark:text-white">
+                <option disabled selected hidden>Фильтрация по тегу</option>
+                <option value="">Все</option>
+                @forelse($tags as $tag)
+                    <option name="id" {{ request('tag') == $tag->id ? 'selected' : '' }} value="{{ $tag->id }}">
+                        {{ $tag->name }}
+                    </option>
+                @empty
+                    <option disabled>Нет категорий</option>
+                @endforelse
+            </select>
+        </form>
+    </div>
     <div class="posts mt-10 flex gap-5 flex-wrap items-center justify-center dark:text-white">
         @forelse($posts as $post)
             <a href="{{ route('showPost', ['id' => $post->id]) }}" class="relative min-w-[500px] max-w-[500px]

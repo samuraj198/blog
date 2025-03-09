@@ -13,22 +13,42 @@ class IndexController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $tags = Tag::all();
         $posts = Post::where('status', 2)
-            ->orderBy('created_at', 'desc')
             ->with('comment')
-            ->paginate(10);
+            ->orderBy('created_at', 'desc');
 
-        return view('pages/index', compact('posts'));
+        if ($request->has('tag') && $request['tag'] !== '') {
+            $tag = Tag::find($request['tag']);
+
+            if ($tag) {
+                $posts->where('tags', 'LIKE', '%' . $tag->name . '%');
+            }
+        }
+
+        $posts = $posts->paginate(10);
+
+        return view('pages/index', compact('posts', 'tags'));
     }
 
-    public function profile()
+    public function profile(Request $request)
     {
         $tags = Tag::all();
         $posts = Post::where('user_id', \auth()->user()->id)
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->orderBy('created_at', 'desc');
+
+        if ($request->has('tag') && $request['tag'] !== '') {
+            $tag = Tag::find($request['tag']);
+
+            if ($tag) {
+                $posts->where('tags', 'LIKE', '%' . $tag->name . '%');
+            }
+        }
+
+        $posts = $posts->paginate(10);
+
         return view('pages/profile', compact('tags', 'posts'));
     }
 
