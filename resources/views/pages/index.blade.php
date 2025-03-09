@@ -16,8 +16,8 @@
                     {{ $post->created_at->timeZone('Europe/Moscow')->addHour()->format('d.m.Y H:i') }}
                 </p>
                 <div class="line border-[1px] border-purple-400 w-full absolute top-1/2 left-0"></div>
-                @if($post->comment->first())
-                    <p class="mt-10 text-center">{{ $post->comment->last()->content }}</p>
+                @if($post->comment->where('status', 2)->first())
+                    <p class="mt-10 text-center">{{ $post->comment->where('status', 2)->last()->content }}</p>
                 @else
                     <p class="text-red-500 text-center mt-10">Нет недавних комментариев</p>
                 @endif

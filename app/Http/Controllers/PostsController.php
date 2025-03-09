@@ -18,13 +18,22 @@ class PostsController extends Controller
         //
     }
 
+    public function approveComment(Request $request)
+    {
+        $comm = Comment::find($request['id']);
+        $comm->status = 2;
+        $comm->save();
+        return redirect()->back();
+    }
+
     public function showPost($id)
     {
         $comments = Comment::where('post_id', $id)->get();
+        $wait = Comment::where('status', 1)->get()->count();
 
         $post = Post::where('id', $id)->first();
 
-        return view('pages/showPost', compact('comments', 'post'));
+        return view('pages/showPost', compact('comments', 'post', 'wait'));
     }
 
     public function createComment($id, Request $request)
@@ -32,6 +41,8 @@ class PostsController extends Controller
         $request->validate([
             'content' => 'required|string',
         ]);
+
+        $post = Post::find($id);
 
         if (empty(auth()->user()->username)) {
             $author = 'Guest';
@@ -41,12 +52,22 @@ class PostsController extends Controller
             $email = auth()->user()->email;
         }
 
+        if (auth()->user()) {
+            if ($post->user_id == auth()->user()->id) {
+                $status = 2;
+            } else {
+                $status = 1;
+            }
+        } else {
+            $status = 1;
+        }
+
         $comment = Comment::create([
             'content' => $request['content'],
             'post_id' => $id,
             'author' => $author,
             'email' =>$email,
-            'status' => 1,
+            'status' => $status,
         ]);
         return redirect()->back()->with('createComm', 'Комментарий отправлен на проверку');
     }

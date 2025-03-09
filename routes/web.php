@@ -14,6 +14,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/createPost', [PostsController::class, 'store'])->name('createPost');
     Route::post('/addToArchive', [PostsController::class, 'addToArchive'])->name('addToArchive');
     Route::delete('/deletePost', [PostsController::class, 'destroy'])->name('deletePost');
+    Route::post('/approveComment', [PostsController::class, 'approveComment'])->name('approveComment');
 });
 
 Route::get('/auth', function () {

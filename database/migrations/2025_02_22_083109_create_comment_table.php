@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('content');
             $table->enum('status', ['1', '2'])->default('1');
             $table->string('author');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('url')->nullable();
             $table->unsignedBigInteger('post_id');
             $table->timestamps();
