@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class IndexController extends Controller
     {
         $posts = Post::where('status', 2)
             ->orderBy('created_at', 'desc')
+            ->with('comment')
             ->paginate(10);
 
         return view('pages/index', compact('posts'));
@@ -25,7 +27,7 @@ class IndexController extends Controller
     {
         $tags = Tag::all();
         $posts = Post::where('user_id', \auth()->user()->id)
-            ->orderBy('status')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
         return view('pages/profile', compact('tags', 'posts'));
     }

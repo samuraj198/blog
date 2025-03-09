@@ -30,7 +30,7 @@ class PostsController extends Controller
     public function createComment($id, Request $request)
     {
         $request->validate([
-            'content' => 'required|string|min:10',
+            'content' => 'required|string',
         ]);
 
         if (empty(auth()->user()->username)) {
