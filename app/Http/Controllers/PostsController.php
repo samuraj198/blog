@@ -121,9 +121,13 @@ class PostsController extends Controller
         }
 
         foreach ($request['tags'] as $tag) {
-            $query = Tag::where('name', $tag)->first();
-            $query->frequency += 1;
-            $query->save();
+            if (!in_array($tag, $oldTags)) {
+                $query = Tag::where('name', $tag)->first();
+                if ($query) {
+                    $query->frequency += 1;
+                    $query->save();
+                }
+            }
         }
 
         $tags = implode(',', $request['tags']);

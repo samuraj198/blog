@@ -1,6 +1,14 @@
 @extends('layouts/main')
 @section('title', 'Main Page')
 @section('content')
+    <h2 class="text-center font-bold text-2xl dark:text-white">Популярные теги</h2>
+    <div class="popularTags flex gap-5 py-10">
+        @forelse($tags->slice(0, 5) as $tag)
+            <p class="dark:text-white bg-purple-400 px-5 py-3 rounded-xl">{{ $tag->name }} - {{ $tag->frequency }}</p>
+        @empty
+            <p class="text-center text-red-500">Нет категорий</p>
+        @endforelse
+    </div>
     <div class="nameAndTags flex gap-10 justify-center items-center">
         <h2 class="text-center font-bold text-2xl dark:text-white">Главная страница</h2>
         <form class="mb-0" method="GET">

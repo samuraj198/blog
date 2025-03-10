@@ -2,8 +2,8 @@
 @include('modals/createNote')
 @section('title', 'Profile')
 @section('content')
-    <div class="nameAndTags flex gap-10 justify-center items-center mb-10">
-        <h2 class="text-center font-bold text-2xl dark:text-white">Ваши записи</h2>
+    <div class="nameAndTags flex gap-10 justify-center items-center mb-6">
+        <h2 class="text-center font-bold mb-4 text-2xl dark:text-white">Ваши записи</h2>
         <form method="GET">
             @csrf
             <select name="tag" onchange="this.form.submit()" class="w-full border-[1px]

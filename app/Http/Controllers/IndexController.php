@@ -15,7 +15,7 @@ class IndexController extends Controller
      */
     public function index(Request $request)
     {
-        $tags = Tag::all();
+        $tags = Tag::orderBy('frequency', 'desc')->get();
         $posts = Post::where('status', 2)
             ->with('comment')
             ->orderBy('created_at', 'desc');
